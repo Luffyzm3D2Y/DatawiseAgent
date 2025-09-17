@@ -1,0 +1,49 @@
+llm:
+  # llm args
+  llm_type: openai-chat
+  # model: Qwen/Qwen2.5-72B-Instruct
+  # model: Qwen/Qwen2.5-32B-Instruct
+  # model: Qwen/Qwen2.5-14B-Instruct
+  # model: gpt-4o-2024-08-06
+  model: gpt-4o-mini-2024-07-18
+  temperature: 0
+  top_p: 1
+  frequency_penalty: 0.0
+agent:
+  agent_type: datawise_agent
+
+  plan:
+    # Whether to enable the DFS-like planning stage
+    planning: True
+    # Max number of times to enter the DFS-like planning stage in the FST-based architecture
+    planning_max_number: 7
+
+    # The name of docker image for docker code executor, only valid if use_docker = True.
+    # image_name: my-jupyter-image
+    image_name: my-jupyter-image-gpus
+
+  execution:
+    # Max number of incremental steps for each subtask
+    execution_max_number: 6
+
+  debug:
+    # Whether to enable automatic self-debugging when code execution fails
+    self_debug: True
+    # Max number of iterations within one code repair process (self-debugging stage)
+    debug_max_number: 8
+    
+  # Global upper bound of steps for one task (to avoid infinite loops)
+  max_step_number: 15
+
+  # Maximum allowed number of debug failures for each subtask
+  max_debug_by_step: 2
+
+
+code_executor:
+  use_docker: True
+  use_proxy: True
+  use_gpu: True
+  
+log:
+  users_log_path: log/workspace/users
+  sessions_log_path: log/data

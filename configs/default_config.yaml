@@ -1,0 +1,60 @@
+llm:
+  # llm args
+  llm_type: openai-chat
+  # model: Qwen/Qwen2.5-72B-Instruct
+  # model: Qwen/Qwen2.5-32B-Instruct
+  # model: Qwen/Qwen2.5-14B-Instruct
+  # model: gpt-4o-2024-08-06
+  model: gpt-4o-mini-2024-07-18
+  temperature: 0.2
+  top_p: 1
+  frequency_penalty: 0.0
+agent:
+  agent_type: datawise_agent
+
+  plan:
+    # Whether to enable the DFS-like planning stage
+    planning: True
+    # Max number of times to enter the DFS-like planning stage in the FST-based architecture
+    planning_max_number: 7
+
+  execution:
+    # Max number of incremental steps for each subtask
+    execution_max_number: 6
+
+  debug:
+    # Whether to enable automatic self-debugging when code execution fails
+    self_debug: True
+    # Max number of iterations within one code repair process (self-debugging stage)
+    debug_max_number: 8
+    
+  # Global upper bound of steps for one task (to avoid infinite loops)
+  max_step_number: 15
+
+  # Whether to enable evaluation/summary after task completion
+  evaluation: False
+
+code_executor:
+  # Whether to run the code executor inside a Docker sandbox (recommended for safety)
+  use_docker: True
+  # Whether to enable proxy settings inside the Docker server
+  # If enabled, you must define the following in your .env file:
+  #   HOST_HTTP_PROXY, HOST_HTTPS_PROXY, HOST_NO_PROXY
+  use_proxy: True
+
+  # The name of docker image for docker code executor, only valid if use_docker = True.
+  image_name: my-jupyter-image
+  # image_name: my-jupyter-image-gpus
+  
+log:
+  # Root directory for user workspaces.  
+  # Each user gets a subdirectory under this path, which will hold all of their sessions.  
+  # Example: log/workspace/users/<user_id>/<session_id>/
+  # This directory captures all file-system side effects produced while the agent is running.
+  users_log_path: log/workspace/users
+  
+  # Root directory for session JSON persistence.  
+  # Each session’s conversation and execution history is saved as a JSON file here.  
+  # Layout: sessions_log_path/<user_id>/sessions/<session_id>/<session_name>.json  
+  # This complements `users_log_path` by recording the complete historical trajectory of the agent.
+  sessions_log_path: log/data
